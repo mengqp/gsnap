@@ -1,0 +1,17 @@
+#+TITLE: 编译过程
+#+STYLE: <link rel="stylesheet" type="text/css" href="" />
+#+OPTIONS: ^:nil
+#+AUTHOR: mengqp
+#+LANGUAGE: zh-CN
+
+* Table of Contents                                         :TOC_4_org:noexport:
+- [[概述][概述]]
+
+* 概述
+  1) 执行buildlib.sh 编译库
+  2) 执行make 编译程序
+
+#+BEGIN_SRC shell
+  ./buildlib.sh
+  make
+#+END_SRC
