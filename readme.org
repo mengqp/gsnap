@@ -12,6 +12,7 @@
   2) 执行make 编译程序
 
 #+BEGIN_SRC shell
+  # 可能需要export PATH=/usr/local/MCGS/gcc-mcgs/bin/:$PATH
   ./buildlib.sh
   make
 #+END_SRC

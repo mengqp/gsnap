@@ -1,51 +1,66 @@
 #!/bin/bash
 
-nr_jobs=8
-host=arm-none-linux-gnueabi
+# nr_jobs=8
+host=arm-linux-gnueabi
 
-cc=/opt/arm-2011.03/bin/arm-none-linux-gnueabi-gcc
-cxx=/opt/arm-2011.03/bin/arm-none-linux-gnueabi-g++
-ld=/opt/arm-2011.03/bin/arm-none-linux-gnueabi-ld
-as=/opt/arm-2011.03/bin/arm-none-linux-gnueabi-as
-ar=/opt/arm-2011.03/bin/arm-none-linux-gnueabi-ar
+toolpath=/usr/local/MCGS/gcc-mcgs/bin/arm-linux-gnueabi-
+buildpath=$PWD/build
+
+cc=${toolpath}gcc
+cxx=${toolpath}g++
+ld=${toolpath}ld
+as=${toolpath}as
+ar=${toolpath}ar
+
 
 cd zlib
+make uninstall
+make distclean
 CC=$cc \
-  CXX=$cxx \
-  LD=$ld \
-  AS=$as \
-  AR=$ar \
-  ./configure --prefix=$PWD/../build \
-  --shared;
-make -j$nr_jobs ; make install
+	CXX=$cxx \
+	LD=$ld \
+	AS=$as \
+	AR=$ar \
+	./configure --prefix=$buildpath \
+	--shared
+make -j$nr_jobs
+make install
 cd ..
 
 cd libjpeg
+make uninstall
+make distclean
 CC=$cc \
-      CXX=$cxx \
-      LD=$ld \
-      AS=$as \
-      AR=$ar \
-      ./configure --prefix=$PWD/../build \
-                       --build=i386-linux \
-                       --host=$host \
-                       --target=$host \
-                       --enable-shared;
-make -j$nr_jobs ; make install
+	CXX=$cxx \
+	LD=$ld \
+	AS=$as \
+	AR=$ar \
+	CPPFLAGS=$cppflags \
+	LDFLAGS=$ldflags \
+	./configure --prefix=$buildpath \
+	--build=i386-linux \
+	--host=$host \
+	--target=$host \
+	--enable-shared
+make -j$nr_jobs
+make install
 cd ..
 
-cd libpng
+cd libpng/
+echo $PWD
+make uninstall
+make distclean
 CC=$cc \
-      CXX=$cxx \
-      LD=$ld \
-      AS=$as \
-      AR=$ar \
-      CPPFLAGS="-I$PWD/../build/include -I/opt/arm-2009q1/arm-none-linux-gnueabi/include" \
-      LDFLAGS="-L$PWD/../build/lib -L/opt/arm-2009q1/arm-none-linux-gnueabi/libc/lib/" \
-      ./configure --prefix=$PWD/../build \
-      --build=i386-linux \
-      --host=$host \
-      --target=$host
-make -j$nr_jobs ; make install
+	CXX=$cxx \
+	LD=$ld \
+	AS=$as \
+	AR=$ar \
+	# CPPFLAGS=$cppflags \
+	# LDFLAGS=$ldflags \
+	./configure --prefix=$buildpath \
+	--build=i386-linux \
+	--host=$host \
+	--target=$host
+make -j$nr_jobs
+make install
 cd ..
-
